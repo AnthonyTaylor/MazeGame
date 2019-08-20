@@ -15,6 +15,11 @@ namespace MazeGame
 
         public readonly int playerSpeed = 5;
 
+        //TODO: Add health and invincibility timer
+        //public readonly int playerInvincible = 5;
+
+        public int playerhealth = 5;
+
         /// <summary>
         /// Prevent window resizing
         /// </summary>
@@ -42,6 +47,11 @@ namespace MazeGame
             pbPlayer.SizeMode = PictureBoxSizeMode.StretchImage;
             pbPlayer.BackColor = TransparencyKey;
 
+            //Danger zone - Spikes
+            pbSpikes.Image = Properties.Resources.Spikes;
+            pbSpikes.BorderStyle = BorderStyle.FixedSingle;
+            pbSpikes.BackColor = TransparencyKey;
+
             //exit zone
             pnlExit.BackColor = Color.DarkGray;
         }
@@ -55,34 +65,48 @@ namespace MazeGame
             if (pbPlayer.Bounds.IntersectsWith(pnlExit.Bounds))
                 Winner();
 
-            //Move player
-            switch (e.KeyCode)
+            //player hits damageZone
+            if (pbPlayer.Bounds.IntersectsWith(pbSpikes.Bounds))
             {
-                case Keys.W:
-                case Keys.Up:
-                    pbPlayer.Top -= playerSpeed;
-                    break;
-                case Keys.A:
-                case Keys.Left:
-                    pbPlayer.Left -= playerSpeed;
-                    break;
-                case Keys.S:
-                case Keys.Down:
-                    pbPlayer.Top += playerSpeed;
-                    break;
-                case Keys.D:
-                case Keys.Right:
-                    pbPlayer.Left += playerSpeed;
-                    break;
-                default:
-                    break;
+                Changehealth(-1);
             }
-
+            else
+            {
+                //Move player
+                switch (e.KeyCode)
+                {
+                    case Keys.W:
+                    case Keys.Up:
+                        pbPlayer.Top -= playerSpeed;
+                        break;
+                    case Keys.A:
+                    case Keys.Left:
+                        pbPlayer.Left -= playerSpeed;
+                        break;
+                    case Keys.S:
+                    case Keys.Down:
+                        pbPlayer.Top += playerSpeed;
+                        break;
+                    case Keys.D:
+                    case Keys.Right:
+                        pbPlayer.Left += playerSpeed;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         void Winner()
         {
             MessageBox.Show("Winner!");
+            Application.Exit();
+        }
+
+        void Changehealth(int amount)
+        {
+            //playerhealth += amount;
+            MessageBox.Show("You Died!");
             Application.Exit();
         }
     }

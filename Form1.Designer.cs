@@ -30,7 +30,9 @@
         {
             this.pnlExit = new System.Windows.Forms.Panel();
             this.pbPlayer = new System.Windows.Forms.PictureBox();
+            this.pbSpikes = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSpikes)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlExit
@@ -50,11 +52,22 @@
             this.pbPlayer.TabIndex = 2;
             this.pbPlayer.TabStop = false;
             // 
+            // pbSpikes
+            // 
+            this.pbSpikes.BackColor = System.Drawing.Color.LightCoral;
+            this.pbSpikes.Location = new System.Drawing.Point(12, 388);
+            this.pbSpikes.Name = "pbSpikes";
+            this.pbSpikes.Size = new System.Drawing.Size(100, 50);
+            this.pbSpikes.TabIndex = 3;
+            this.pbSpikes.TabStop = false;
+            this.pbSpikes.Tag = "damageZone";
+            // 
             // MainScene
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pbSpikes);
             this.Controls.Add(this.pbPlayer);
             this.Controls.Add(this.pnlExit);
             this.Name = "MainScene";
@@ -63,6 +76,7 @@
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.NainScene_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pbPlayer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSpikes)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -70,6 +84,7 @@
         #endregion
         private System.Windows.Forms.Panel pnlExit;
         private System.Windows.Forms.PictureBox pbPlayer;
+        private System.Windows.Forms.PictureBox pbSpikes;
     }
 }
 

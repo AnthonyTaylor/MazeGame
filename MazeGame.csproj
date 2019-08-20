@@ -84,6 +84,7 @@
   <ItemGroup>
     <Content Include="Resources\Player sprite.gif" />
     <Content Include="Resources\Player sprite.jpg" />
+    <None Include="Resources\Spikes.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
