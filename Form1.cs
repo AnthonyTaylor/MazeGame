@@ -14,11 +14,12 @@ namespace MazeGame
     {
 
         public readonly int playerSpeed = 5;
+        public readonly int ObjectSpeed = 5;
 
         //TODO: Add health and invincibility timer
         //public readonly int playerInvincible = 5;
 
-        public int playerhealth = 5;
+        public int playerhealth = 1;
 
         /// <summary>
         /// Prevent window resizing
@@ -35,6 +36,7 @@ namespace MazeGame
         /// </summary>
         private void Form1_Load(object sender, EventArgs e)
         {
+
             //window
             DoubleBuffered = true;
             BackColor = Color.Black;
@@ -52,6 +54,15 @@ namespace MazeGame
             pbSpikes.BorderStyle = BorderStyle.FixedSingle;
             pbSpikes.BackColor = TransparencyKey;
 
+            //Danger zone - Moving spikes
+            pbMovingSpikes01.Image = Properties.Resources.Spikes;
+            pbMovingSpikes01.BorderStyle = BorderStyle.FixedSingle;
+            pbMovingSpikes01.BackColor = TransparencyKey;
+            pbMovingSpikes01.Top = this.Height;
+
+            //timers
+            timerSpikes.Enabled = true;
+
             //exit zone
             pnlExit.BackColor = Color.DarkGray;
         }
@@ -66,13 +77,14 @@ namespace MazeGame
                 Winner();
 
             //player hits damageZone
-            if (pbPlayer.Bounds.IntersectsWith(pbSpikes.Bounds))
+            if (pbPlayer.Bounds.IntersectsWith(pbSpikes.Bounds) ||
+                pbPlayer.Bounds.IntersectsWith(pbMovingSpikes01.Bounds))
             {
                 Changehealth(-1);
             }
+            //Move player
             else
             {
-                //Move player
                 switch (e.KeyCode)
                 {
                     case Keys.W:
@@ -97,15 +109,54 @@ namespace MazeGame
             }
         }
 
+        private void TimerSpikes_Tick(object sender, EventArgs e)
+        {
+            //player hit
+            if (pbMovingSpikes01.Bounds.IntersectsWith(pbPlayer.Bounds))
+            {
+                Changehealth(-1);
+            }
+            //Move spikes
+            else
+            {
+                if (pbMovingSpikes01.Top < 0)
+                {
+                    pbMovingSpikes01.Top += ObjectSpeed;
+                }
+                if (pbMovingSpikes01.Top >= this.Height)
+                {
+                    pbMovingSpikes01.Top -= ObjectSpeed;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Run this once the win conditions have passed
+        /// </summary>
         void Winner()
         {
             MessageBox.Show("Winner!");
             Application.Exit();
         }
 
+        /// <summary>
+        /// Change player health 
+        /// </summary>
+        /// <param name="amount">int - set negative to lower health, positive to increase health</param>
         void Changehealth(int amount)
         {
-            //playerhealth += amount;
+            playerhealth += amount;
+
+            if (playerhealth <= 0)
+                Lose();
+        }
+
+        /// <summary>
+        /// Run once lose condition is passed
+        /// </summary>
+        void Lose()
+        {
+            timerSpikes.Enabled = false;
             MessageBox.Show("You Died!");
             Application.Exit();
         }
